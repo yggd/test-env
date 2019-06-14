@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres11-jp
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    networks:
+      - cinet01 
+
+  tomcat:
+    image: tomcat:9.0.21-jdk11
+    restart: always
+    ports:
+      - '10080:8080'
+    volumes:
+      - './tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml'
+      - './tomcat/context.xml:/usr/local/tomcat/webapps/manager/META-INF/context.xml'
+    networks:
+      - cinet01
+  
+networks:
+  cinet01:
+    external: true
